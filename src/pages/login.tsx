@@ -1,4 +1,7 @@
+// src/pages/login
 import { useState, type FormEvent } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { useAuth } from '../auth/AuthContext';
 
 interface LoginResponse {
     token: string;
@@ -8,6 +11,12 @@ export default function Login() {
     const [email, setMail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
+    const { login } = useAuth();
+    const navigate = useNavigate();
+    const location = useLocation();
+
+    // Récupère la page d'origine avant la redirection
+    const from = location.state?.from?.pathname || '/dashboard';
 
     const handleLogin = async (e: FormEvent) => {
         e.preventDefault();
@@ -15,22 +24,20 @@ export default function Login() {
         try {
             const response = await fetch('http://localhost:8080/api/login', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ email, password }),
             });
 
             if (!response.ok) {
-                throw new Error('Identifiants invalides');
+                const errorData = await response.json();
+                throw new Error(errorData.message || 'Identifiants invalides');
             }
 
             const data: LoginResponse = await response.json();
-            localStorage.setItem('token', data.token);
-            console.log('Token reçu :', data.token);
+            login(data.token); // Utilise le contexte pour stocker le token
 
-            // redirection après login
-            window.location.href = '/dashboard';
+            // Redirection vers la page d'origine
+            navigate(from, { replace: true });
         } catch (err) {
             setError((err as Error).message);
         }
@@ -46,14 +53,16 @@ export default function Login() {
                     value={email}
                     onChange={(e) => setMail(e.target.value)}
                     required
-                /><br />
+                />
+                <br />
                 <input
                     type="password"
                     placeholder="Mot de passe"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     required
-                /><br />
+                />
+                <br />
                 <button type="submit">Se connecter</button>
             </form>
             {error && <p style={{ color: 'red' }}>{error}</p>}

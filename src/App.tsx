@@ -1,46 +1,74 @@
-//import { useState } from 'react'
-//import reactLogo from './assets/react.svg'
-//import viteLogo from '/vite.svg'
 import './App.css'
-import { Routes, Route } from 'react-router-dom';
-import Login from './pages/login'; // Crée ce fichier
-//import Home from './pages/home';   // Optionnel : ou garde ton contenu de démo
+import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
+import Login from './pages/login';
 import ChatRoom from './pages/ChatRoom';
 import MesChats from './components/MesChatsProprietaire.tsx';
 import MesInvitations from './components/MesChatsInvite.tsx';
 import Accueil from "./pages/Accueil.tsx";
 import NavBar from "./components/NavBar.tsx";
-//import NavBar from './components/NavBar';
+import { AuthProvider } from './auth/AuthContext';
+import ProtectedRoute from './auth/ProtectedRoute';
 
-const NAVBAR_HEIGHT=30;
+const NAVBAR_HEIGHT = 30;
 
-function App() {
-    const test = `calc(100% - ${NAVBAR_HEIGHT}px)`;
-    console.log(test);
+function AppContent() {
+    const location = useLocation();
+    const hideNavbar = location.pathname === '/login';
+
     return (
-        <>
-            {/*<nav style={{ display:'flex', gap:'16px', border : "1px solid blue", width:"100%",  height:`${NAVBAR_HEIGHT}px`}}>*/}
-            {/*    <Link to="/">Accueil</Link>*/}
-            {/*    <Link to="/login">Login</Link>*/}
-            {/*    <Link to="/chatroom">Chatroom</Link>*/}
-            {/*    <Link to="/mes-chats">Mes Chats</Link>*/}
-            {/*    <Link to="/mes-invitations">Mes Invitations</Link>*/}
-            {/*</nav>*/}
-            <NavBar navbarHeight={30} />
+        <div style={{ height: '100vh', display: 'flex', flexDirection: 'column' }}>
+            {!hideNavbar && <NavBar navbarHeight={NAVBAR_HEIGHT} />}
 
-            <div id="mainContent" style={{width : "100%", height:`calc(100% - ${NAVBAR_HEIGHT}px)`}}>
+            <div id="mainContent" style={{ flex: 1 }}>
                 <Routes>
-                    <Route path="/" element={<Accueil />} />
                     <Route path="/login" element={<Login />} />
-                    <Route path="/chatroom" element={<ChatRoom id={2} />} />
-                    <Route path="/mes-chats" element={<MesChats />} />
-                    <Route path="/mes-invitations" element={<MesInvitations />} />
+
+                    <Route
+                        path="/"
+                        element={
+                            <ProtectedRoute>
+                                <Accueil />
+                            </ProtectedRoute>
+                        }
+                    />
+                    <Route
+                        path="/chatroom"
+                        element={
+                            <ProtectedRoute>
+                                <ChatRoom id={2} />
+                            </ProtectedRoute>
+                        }
+                    />
+                    <Route
+                        path="/mes-chats"
+                        element={
+                            <ProtectedRoute>
+                                <MesChats />
+                            </ProtectedRoute>
+                        }
+                    />
+                    <Route
+                        path="/mes-invitations"
+                        element={
+                            <ProtectedRoute>
+                                <MesInvitations />
+                            </ProtectedRoute>
+                        }
+                    />
+
+                    <Route path="*" element={<Navigate to="/" replace />} />
                 </Routes>
-
             </div>
-
-        </>
+        </div>
     );
 }
 
-export default App
+function App() {
+    return (
+        <AuthProvider>
+            <AppContent />
+        </AuthProvider>
+    );
+}
+
+export default App;
