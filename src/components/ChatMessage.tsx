@@ -13,7 +13,7 @@ export default function ChatMessage({content, author, alignRight=false} : ChatMe
     }
     return (
         <div style={{display : "flex", justifyContent : alignRight ? "flex-end" : "flex-start"}}>
-            <div style={{display : "flex", flexDirection: "column", width :"fit-content", minWidth : "30%", maxWidth : "75%", backgroundColor: alignRight?"#98C1D9":"white", padding : "10px", borderRadius : "20px", gap : "10px", border : alignRight?"":"solid 2px #3D5A80"}}>
+            <div style={{display : "flex", flexDirection: "column", width :"fit-content", minWidth : "30%", maxWidth : "75%", backgroundColor: alignRight?"#98C1D9":"white", padding : "16px", borderRadius : "20px", gap : "10px", border : alignRight?"":"solid 2px #3D5A80"}}>
                 <div style={{fontWeight : "bold"}}>{author}</div>
                 <div>{content}</div>
             </div>

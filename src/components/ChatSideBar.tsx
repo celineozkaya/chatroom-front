@@ -19,7 +19,7 @@ const MOCK_USERS : User[] = [user1, user2, user3];
 
 export default function ChatSideBar({} : ChatSideBarProps): JSX.Element{
     return (
-        <aside style={{border : "1px solid lightgrey", borderRadius : "16px" ,width: "20%", padding: "10px", backgroundColor : "white"}}>
+        <aside style={{width: "20%", padding: "10px", backgroundColor : "white"}}>
             {/* si MOCK_USERS est pas null, on itere sur tous les user pour les afficher */}
             {MOCK_USERS && MOCK_USERS.map((user : User) => { 
                 return (

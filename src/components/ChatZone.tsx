@@ -32,9 +32,9 @@ export default function ChatZone({title="Titre du chat"}:ChatZoneProps):JSX.Elem
     }
 
     return(
-        <div style={{border : "1px solid lightgrey", borderRadius : "16px", width: "80%", display: "flex", flexDirection:"column", height: "100%", justifyContent: "space-between",backgroundColor : "white"}}>
+        <div style={{border : "1px solid lightgrey",  width: "80%", display: "flex", flexDirection:"column", height: "100%", justifyContent: "space-between",backgroundColor : "white"}}>
             {/* titre */}
-            <div style={{fontSize : "20px", padding : "20px", textAlign: "center", color:"black"}}>
+            <div style={{fontSize : "24px", padding : "20px", textAlign: "center", color:"black", fontWeight : "bold"}}>
                 {title}
             </div>
             {/* messages */}
@@ -52,10 +52,10 @@ export default function ChatZone({title="Titre du chat"}:ChatZoneProps):JSX.Elem
             </div>
 
             {/* input + boutton */}
-            <div style={{backgroundColor:"lightgrey", height:"80px", alignContent:"center", padding : "10px"}}>
+            <div style={{backgroundColor:"#5b748e", height:"80px", alignContent:"center", padding : "10px"}}>
             <form action={sendMessage} style={{display: "flex", gap: "10px"}}>
-                <input type="text" name="message" style={{ border : "none", borderRadius : "10px", width : "80%", height : "30px"}}/>
-                <button type="submit" style={{ backgroundColor: hovered ? "#44677B" : "#98C1D9", border : "none",  padding : "5px 10px", borderRadius : "10px"}} onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)}>Envoyer</button>
+                <input type="text" name="message" style={{padding : "10px", fontSize : "16px", border : "none", borderRadius : "20px", width : "80%", height : "30px"}}/>
+                <button type="submit" style={{ backgroundColor: hovered ? "#001F3F" : "#98C1D9", color : hovered ? "white" : "black", border : "none",  padding : "10px 30px", borderRadius : "20px", fontSize : "16px"}} onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)}>Envoyer</button>
             </form>
             </div>
         </div>

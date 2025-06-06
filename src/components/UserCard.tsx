@@ -12,7 +12,7 @@ export default function UserCard({firstname, lastname, online} : UserCardProps) 
             // j'ai fait gap:"10px" dans aside mais ca marche pas?
             <div style={{padding: "15px",
             marginBottom :"10px",
-            borderRadius: "8px",
+            borderRadius: "20px",
             backgroundColor: online ? "#97E283" : "#FDFDFD",
             color: online ? "#1E3321" : "#3D3D3D",
             fontWeight: online ? "bold" : "normal",
