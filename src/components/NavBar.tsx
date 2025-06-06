@@ -1,7 +1,7 @@
-// src/components/NavBar.tsx
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../auth/AuthContext';
+import styles from '../NavBar.module.css';
 
 interface NavBarProps {
     navbarHeight: number;
@@ -13,31 +13,21 @@ const NavBar: React.FC<NavBarProps> = ({ navbarHeight }) => {
 
     const handleLogout = () => {
         logout();
-        navigate('/login'); // Redirige après déconnexion
+        navigate('/login');
     };
 
     return (
-        <nav
-            style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '16px',
-                border: '1px solid blue',
-                width: '100%',
-                height: `${navbarHeight}px`,
-                padding: '0 1rem'
-            }}
-        >
+        <nav className={styles.nav} style={{ height: `${navbarHeight}px` }}>
             {token ? (
                 <>
-                    <Link to="/">Accueil</Link>
-                    <Link to="/chatroom">Chatroom</Link>
-                    <Link to="/mes-chats">Mes Chats</Link>
-                    <Link to="/mes-invitations">Mes Invitations</Link>
-                    <button onClick={handleLogout}>Se déconnecter</button>
+                    <Link to="/" className={styles.link}>Accueil</Link>
+                    <Link to="/chatroom" className={styles.link}>Chatroom</Link>
+                    <Link to="/mes-chats" className={styles.link}>Mes Chats</Link>
+                    <Link to="/mes-invitations" className={styles.link}>Mes Invitations</Link>
+                    <button onClick={handleLogout} className={styles.button}>Se déconnecter</button>
                 </>
             ) : (
-                <Link to="/login">Se connecter</Link>
+                <Link to="/login" className={styles.link}>Se connecter</Link>
             )}
         </nav>
     );

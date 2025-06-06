@@ -1,4 +1,3 @@
-import './App.css'
 import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import Login from './pages/login';
 import ChatRoom from './pages/ChatRoom';
@@ -9,17 +8,17 @@ import NavBar from "./components/NavBar.tsx";
 import { AuthProvider } from './auth/AuthContext';
 import ProtectedRoute from './auth/ProtectedRoute';
 
-const NAVBAR_HEIGHT = 30;
+const NAVBAR_HEIGHT = 50;
 
 function AppContent() {
     const location = useLocation();
     const hideNavbar = location.pathname === '/login';
 
     return (
-        <div style={{ height: '100vh', display: 'flex', flexDirection: 'column' }}>
+        <>
             {!hideNavbar && <NavBar navbarHeight={NAVBAR_HEIGHT} />}
 
-            <div id="mainContent" style={{ flex: 1 }}>
+            <div id="mainContent" style={{width : "100%", height:`calc(100% - ${NAVBAR_HEIGHT}px)`, backgroundColor : "lightgrey"}}>
                 <Routes>
                     <Route path="/login" element={<Login />} />
 
@@ -34,9 +33,9 @@ function AppContent() {
                     <Route
                         path="/chatroom"
                         element={
-                            <ProtectedRoute>
+                            // <ProtectedRoute>
                                 <ChatRoom id={2} />
-                            </ProtectedRoute>
+                            // </ProtectedRoute>
                         }
                     />
                     <Route
@@ -59,7 +58,7 @@ function AppContent() {
                     <Route path="*" element={<Navigate to="/" replace />} />
                 </Routes>
             </div>
-        </div>
+        </>
     );
 }
 
