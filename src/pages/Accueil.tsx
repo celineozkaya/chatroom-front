@@ -1,13 +1,20 @@
 // src/pages/Accueil.tsx
-import React from 'react';
-import TousLesChats from '../components/TousLesChats';
+import React, { type CSSProperties } from 'react';
+import MesChatsProprietaire from '../components/MesChatsProprietaire';
+import MesChatsInvite from '../components/MesChatsInvite';
+import { Link } from 'react-router-dom';
+import styles from '../styles/Accueil.module.css';
+
+
 
 const Accueil: React.FC = () => {
     return (
         <>
-            <div>
-                <h1>Accueil</h1>
-                <TousLesChats />
+            <div style={{display:"flex", flexDirection :"column"}}>
+                <div>Accueil</div>
+                <MesChatsProprietaire />
+                <Link className= {styles.createchat} to="/creer-un-chat" >Créer un chat</Link>
+                <MesChatsInvite />
             </div>
         </>
     );

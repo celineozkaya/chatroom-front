@@ -1,0 +1,18 @@
+.createchat {
+    color: black; 
+    text-decoration: none;
+    padding: 12px;
+    transition: background-color 0.2s, color 0.2s;
+    background-color: #98C1D9;
+    border-radius: 16px;
+    font-size: 16px;
+    font-family: sans-serif;
+    width: fit-content;
+
+}
+
+.createchat:hover {
+    background-color: #001F3F;
+    color: white;
+    cursor : pointer;
+}

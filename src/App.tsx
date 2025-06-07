@@ -7,6 +7,7 @@ import Accueil from "./pages/Accueil.tsx";
 import NavBar from "./components/NavBar.tsx";
 import { AuthProvider } from './auth/AuthContext';
 import ProtectedRoute from './auth/ProtectedRoute';
+import CreateChat from './pages/CreateChat.tsx';
 
 const NAVBAR_HEIGHT = 50;
 
@@ -25,13 +26,13 @@ function AppContent() {
                     <Route
                         path="/"
                         element={
-                            <ProtectedRoute>
+                            // <ProtectedRoute>
                                 <Accueil />
-                            </ProtectedRoute>
+                            // </ProtectedRoute>
                         }
                     />
                     <Route
-                        path="/chatroom"
+                        path="/chat/:chatId"
                         element={
                             // <ProtectedRoute>
                                 <ChatRoom id={2} />
@@ -41,9 +42,9 @@ function AppContent() {
                     <Route
                         path="/mes-chats"
                         element={
-                            <ProtectedRoute>
+                            // <ProtectedRoute>
                                 <MesChats />
-                            </ProtectedRoute>
+                            // </ProtectedRoute>
                         }
                     />
                     <Route
@@ -52,6 +53,15 @@ function AppContent() {
                             <ProtectedRoute>
                                 <MesInvitations />
                             </ProtectedRoute>
+                        }
+                    />
+
+                    <Route
+                        path="/creer-un-chat"
+                        element={
+                            // <ProtectedRoute>
+                                <CreateChat />
+                            // </ProtectedRoute>
                         }
                     />
 

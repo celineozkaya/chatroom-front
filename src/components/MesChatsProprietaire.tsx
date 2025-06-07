@@ -34,7 +34,7 @@ const MesChatsProprietaire: React.FC = () => {
 
     return (
         <div>
-            <h2>Chats où je suis propriétaire</h2>
+            <div>Mes chats (propriétaire)</div>
             <ul>
                 {chats.map(chat => (
                     <li key={chat.id}>

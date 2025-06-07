@@ -11,6 +11,7 @@ interface Chat {
 const MesChatsInvite: React.FC = () => {
     const [chats, setChats] = useState<Chat[]>([]);
 
+    // quand je charge MesChatsInvite, j'execute ceci qui recupere les chats où je suis invité
     useEffect(() => {
         const fetchChats = async () => {
             try {
@@ -26,7 +27,7 @@ const MesChatsInvite: React.FC = () => {
 
     return (
         <div>
-            <h2>Chats où je suis invité</h2>
+            <div>Mes chats (invité)</div>
             <ul>
                 {chats.map(chat => (
                     <li key={chat.id}>
