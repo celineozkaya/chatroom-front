@@ -26,25 +26,25 @@ function AppContent() {
                     <Route
                         path="/"
                         element={
-                            // <ProtectedRoute>
+                            <ProtectedRoute>
                                 <Accueil />
-                            // </ProtectedRoute>
+                            </ProtectedRoute>
                         }
                     />
                     <Route
                         path="/chat/:chatId"
                         element={
-                            // <ProtectedRoute>
+                            <ProtectedRoute>
                                 <ChatRoom id={2} />
-                            // </ProtectedRoute>
+                            </ProtectedRoute>
                         }
                     />
                     <Route
                         path="/mes-chats"
                         element={
-                            // <ProtectedRoute>
+                            <ProtectedRoute>
                                 <MesChats />
-                            // </ProtectedRoute>
+                            </ProtectedRoute>
                         }
                     />
                     <Route
@@ -59,9 +59,9 @@ function AppContent() {
                     <Route
                         path="/creer-un-chat"
                         element={
-                            // <ProtectedRoute>
+                            <ProtectedRoute>
                                 <CreateChat />
-                            // </ProtectedRoute>
+                            </ProtectedRoute>
                         }
                     />
 

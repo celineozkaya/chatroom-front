@@ -19,8 +19,6 @@ interface User{
     // readonly avatar : string; // c'est une photo
 }
 
-
-
 const formStyle : CSSProperties = {
     display: "flex", 
     flexDirection: "column",
@@ -52,19 +50,29 @@ const selectStyle : CSSProperties = {
     backgroundColor: "white"
 }
 
+// recuperer la date actuelle
+function getCurrentDateTime() : string {
+    const now = new Date();
+    now.setSeconds(0, 0); // sans secondes et millisecondes
+    return now.toISOString().slice(0, 16); 
+};
+
+// convertir la date au format sql
+function toSQLTimestamp(dateTime: string) : string {
+    return dateTime + ':00'; // donne le format YYYY-MM-DD HH:MM:00
+};
 
 export default function CreateChat({} : CreateChatProps) : JSX.Element {
     // pour peupler le select (lister les utilisateurs)
     const [users, setUsers] = useState<User[]>([])
     const [selectedUsers, setSelectedUsers] = useState<User[]>([]);
 
-
     // au chargement du composant, recuperer la liste des utilisateurs
     useEffect(() => {
         getUsers();
     }, []);
 
-    // requete get pour la liste des users
+    // requete get pour la liste des users (select)
     function getUsers() {
         axios
             .get("http://localhost:8080/api/users")
@@ -81,8 +89,54 @@ export default function CreateChat({} : CreateChatProps) : JSX.Element {
             .catch((err) => console.error(err));
     };
 
+    // action a l'envoie du formulaire
     function createChat(formData : FormData) {
-        
+
+        const body = {
+            title : formData.get("title"),
+            description :formData.get("description"),
+            date : toSQLTimestamp(formData.get("date")!.toString()),
+            validityPeriod : formData.get("validityperiod")
+        }
+
+        // creer le chat sans invités
+        axios
+            .post("http://localhost:8080/api/chats/create", JSON.stringify(body), {headers: { 'Content-Type': 'application/json' }, withCredentials: true })
+            .then((res) => {
+                console.log("Chat créé :", res.data.id);
+
+                const chatId = res.data.id ; 
+
+                // verif id 
+                if (!chatId) {
+                    console.error("Chat ID manquant dans la réponse");
+                    return;
+                }
+
+                // envoyer invitation a chaque utilisateur
+                selectedUsers.forEach((user) => {
+                    const invitationBody = {
+                        userId: user.id
+                    };
+
+                    axios.post(`http://localhost:8080/api/chats/${chatId}/invite`,
+                        JSON.stringify(invitationBody),
+                        {
+                            headers: { 'Content-Type': 'application/json' },
+                            withCredentials: true
+                        })
+                        .then((inviteRes) => {
+                            console.log(`Utilisateur ${user.email} invité avec succès`);
+                        })
+                        .catch((inviteErr) => {
+                            console.error(`Erreur lors de l'invitation de ${user.email}`, inviteErr);
+                        });
+                });
+            })
+            .catch((err) => console.error(err));
+
+
+        // ajouter les invités 
     }
 
     // template pour une option du multiselect
@@ -93,14 +147,15 @@ export default function CreateChat({} : CreateChatProps) : JSX.Element {
             </div>
         );
     };
-
+    
+    
 
     return (
         <div style={{display: "flex", flexDirection: "column", alignItems : "center"}}>
             <div style={{fontSize :"26px", padding : "20px"}}>Créez un chat</div>
             <form action={createChat} style={formStyle}>
                 <div>Nom du chat*</div> 
-                <input type="text" name="name" style={inputStyle} required/>
+                <input type="text" name="title" style={inputStyle} required/>
 
                 <div>Description*</div> 
                 <input type="text" name="description" style={inputStyle} required/>
@@ -108,16 +163,16 @@ export default function CreateChat({} : CreateChatProps) : JSX.Element {
                 <div style={{display: "flex", gap : "20px"}}> 
                     <div style={{display: "flex", flexDirection: "column", gap: "10px"}}>
                         Date*
-                        <input type="date" style={{...inputStyle, width: "fit-content"}} required/>
+                        <input type="datetime-local" name="date" min={getCurrentDateTime()} style={{...inputStyle, width: "fit-content"}} required/>
                     </div> 
                     <div style={{display: "flex", flexDirection: "column", gap: "10px"}}>
                         Période de validité (en jours)*
-                        <input type="number" min="0" style={inputStyle} required/>
+                        <input type="number" name="validityperiod" min="0" style={inputStyle} required/>
                     </div>
                 </div>
 
                 <div>Invités*</div> 
-                <MultiSelect value={selectedUsers} onChange={(e) => setSelectedUsers(e.value)} options={users} optionLabel="email"
+                <MultiSelect value={selectedUsers} name="guests" onChange={(e) => setSelectedUsers(e.value)} options={users} optionLabel="email"
                 placeholder="Selectionnez vos invités" itemTemplate={userTemplate} display="chip" className="w-full" />
 
                 <small>*Champs requis.</small>
