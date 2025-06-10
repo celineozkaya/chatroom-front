@@ -1,5 +1,5 @@
 import { useState, type CSSProperties, type JSX, useEffect } from "react";
-import style from "../styles/Accueil.module.css";
+import style from "../styles/Button.module.css";
 import axios from "axios";
 import { MultiSelect } from 'primereact/multiselect';
 import 'primereact/resources/themes/lara-light-indigo/theme.css'; // ou autre thème
@@ -35,19 +35,6 @@ const inputStyle : CSSProperties = {
     border : "1px solid lightgrey", 
     borderRadius : "20px", 
     height : "40px",
-}
-
-const selectStyle : CSSProperties = {
-    padding: "10px",
-    fontSize: "16px",
-    border: "1px solid lightgrey",
-    borderRadius: "20px",
-    height: "40px",
-    lineHeight: "20px",
-    appearance: "none", // enlève le style natif
-    WebkitAppearance: "none", // safari
-    MozAppearance: "none", // firefox
-    backgroundColor: "white"
 }
 
 // recuperer la date actuelle
@@ -98,10 +85,11 @@ export default function CreateChat({} : CreateChatProps) : JSX.Element {
             date : toSQLTimestamp(formData.get("date")!.toString()),
             validityPeriod : formData.get("validityperiod")
         }
-
+        
         // creer le chat sans invités
         axios
-            .post("http://localhost:8080/api/chats/create", JSON.stringify(body), {headers: { 'Content-Type': 'application/json' }, withCredentials: true })
+        .post("http://localhost:8080/api/chats/create", JSON.stringify(body), {headers: { 'Content-Type': 'application/json' }, withCredentials: true })
+            // ajouter les invités 
             .then((res) => {
                 console.log("Chat créé :", res.data.id);
 
@@ -134,9 +122,6 @@ export default function CreateChat({} : CreateChatProps) : JSX.Element {
                 });
             })
             .catch((err) => console.error(err));
-
-
-        // ajouter les invités 
     }
 
     // template pour une option du multiselect
@@ -178,7 +163,7 @@ export default function CreateChat({} : CreateChatProps) : JSX.Element {
                 <small>*Champs requis.</small>
 
                 <div style={{display : "flex", justifyContent : "center"}}>
-                    <button type="submit" className={style.createchat} style={{border : "none"}}>Créer mon chat</button>
+                    <button type="submit" className={style.button}>Créer mon chat</button>
                 </div>
             </form>
         </div>
@@ -189,4 +174,3 @@ export default function CreateChat({} : CreateChatProps) : JSX.Element {
 
 // https://medium.com/nerd-for-tech/fetching-api-using-useeffect-hook-in-react-js-7b9b34e427ca
 // https://primereact.org/multiselect/
-// const userIds = selectedUsers.map(user => user.id);

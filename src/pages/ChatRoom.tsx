@@ -1,8 +1,9 @@
 // page de l'interface de chatroom
-import { type JSX } from "react";
+import { useState, type JSX, useEffect } from "react";
 import ChatZone from "../components/ChatZone";
 import ChatSideBar from "../components/ChatSideBar";
 import { useParams } from "react-router-dom";
+import axios from "axios";
 
 // typage ("interface" => pas vrm une classe mais obj) : on definit l'objet qu'on donne a ChatRoom
 interface ChatRoomProps{
@@ -16,6 +17,25 @@ interface ChatRoomProps{
 // exporter, 
 export default function ChatRoom({} : ChatRoomProps) : JSX.Element {
     const { chatId } = useParams<{ chatId: string }>();
+    const [ownerId, setOwnerId] = useState<number>(0);
+
+    useEffect(() => {
+        if (chatId) {
+            getChatOwner();
+        }
+    }, [chatId]);
+
+    // changer pour une fonction avec axios et .then .catch
+    function getChatOwner() {
+        axios
+            .get(`http://localhost:8080/api/chats/${chatId}/owner`)
+            .then((res) => {
+                
+                setOwnerId(res.data.usersId);
+
+            })
+            .catch((err) => console.error(err));
+    };
 
 
     return(
@@ -25,9 +45,14 @@ export default function ChatRoom({} : ChatRoomProps) : JSX.Element {
             <ChatZone title="Titre du chat"/>
 
             {/* sidebar pour les utilisateurs connectés */}
-            <ChatSideBar/>
+            <ChatSideBar ownerId={ownerId}/>
         </div>
 
     );
 
 };
+
+// recuperer l'id de l'owner du chat
+//  aligner l’authentification front / back=> voir avec sacha ce qu'il avait fait, on dirait qu'il fait les deux :
+//soit tout passe par token jwt (et backend doit verif token),
+// soit tout passe par session http avec cookie ( et  axios doit faire withCredentials: true).

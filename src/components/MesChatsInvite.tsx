@@ -4,8 +4,11 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 
 interface Chat {
-    id: number;
-    name: string;
+    readonly id: number;
+    readonly title: string;
+    readonly description: string;
+    readonly date: string;
+    readonly validityPeriod: number;
 }
 
 const MesChatsInvite: React.FC = () => {
@@ -15,7 +18,13 @@ const MesChatsInvite: React.FC = () => {
     useEffect(() => {
         const fetchChats = async () => {
             try {
-                const response = await axios.get<Chat[]>('http://localhost:8080/api/chats/listchatinvited');
+                const token = localStorage.getItem('token');
+                const response = await axios.get<Chat[]>('http://localhost:8080/api/chats/listchatinvited',{
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    },
+                    withCredentials: true
+                });
                 setChats(response.data);
             } catch (error) {
                 console.error('Erreur lors de la récupération des chats', error);
@@ -31,7 +40,7 @@ const MesChatsInvite: React.FC = () => {
             <ul>
                 {chats.map(chat => (
                     <li key={chat.id}>
-                        <Link to={`/chat/${chat.id}`}>{chat.name}</Link>
+                        <Link to={`/chat/${chat.id}`}>{chat.title}</Link>
                     </li>
                 ))}
             </ul>

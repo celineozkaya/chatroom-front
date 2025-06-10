@@ -1,5 +1,7 @@
 import { useState, type JSX } from "react";
 import ChatMessage from "./ChatMessage";
+import styles from '../styles/Button.module.css';
+
 
 interface Message{
     readonly content: string;
@@ -21,7 +23,6 @@ const MOCK_MESSAGES : Message[] = [msg_eux, msg_eux, msg_eux, msg_moi,msg_eux, m
 export default function ChatZone({title="Titre du chat"}:ChatZoneProps):JSX.Element {
     // partie fonctionnelle du composant 
     const [displayedMessage, setDisplayedMessage] = useState<string>(''); // afficher le message
-    const [hovered, setHovered] = useState(false);
 
     // gere l'envoie des messages
     function sendMessage(formData : FormData) {
@@ -54,14 +55,11 @@ export default function ChatZone({title="Titre du chat"}:ChatZoneProps):JSX.Elem
             {/* input + boutton */}
             <div style={{backgroundColor:"#5b748e", height:"80px", alignContent:"center", padding : "10px"}}>
             <form action={sendMessage} style={{display: "flex", gap: "10px"}}>
-                <input type="text" name="message" style={{padding : "10px", fontSize : "16px", border : "none", borderRadius : "20px", width : "80%", height : "30px"}}/>
-                <button type="submit" style={{ backgroundColor: hovered ? "#001F3F" : "#98C1D9", color : hovered ? "white" : "black", border : "none",  padding : "10px 30px", borderRadius : "20px", fontSize : "16px"}} onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)}>Envoyer</button>
+                <input type="text" name="message" style={{padding : "10px", fontSize : "16px", border : "none", borderRadius : "20px", width : "80%", height : "40px"}}/>
+                <button type="submit" className={styles.button} >Envoyer</button>
             </form>
             </div>
         </div>
 
     );
 };
-
-
-//git push -u origin ChatRoom

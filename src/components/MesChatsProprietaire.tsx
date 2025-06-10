@@ -4,8 +4,11 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 
 interface Chat {
-    id: number;
-    title: string;
+    readonly id: number;
+    readonly title: string;
+    readonly description: string;
+    readonly date: string;
+    readonly validityPeriod: number;
 }
 
 const MesChatsProprietaire: React.FC = () => {
@@ -21,7 +24,8 @@ const MesChatsProprietaire: React.FC = () => {
                 const response = await axios.get<Chat[]>('http://localhost:8080/api/chats/listchatowned', {
                     headers: {
                         'Authorization': `Bearer ${token}`
-                    }
+                    },
+                    withCredentials: true
                 });
                 setChats(response.data);
             } catch (error) {

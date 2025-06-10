@@ -1,8 +1,11 @@
 import type { JSX } from "react";
 import UserCard from "./UserCard";
+import DeleteChatButton from "./DeleteChatButton";
+import { useAuth } from "../auth/AuthContext";
 
 // la side bar qui affiche les utilisateurs du chat
 interface ChatSideBarProps{
+    readonly ownerId : number;
 }
 
 interface User{
@@ -17,7 +20,23 @@ const user2 : User = {firstname : "Alice", lastname : "Bob", online : true};
 const user3 : User = {firstname : "Lala", lastname : "Lili", online : false};
 const MOCK_USERS : User[] = [user1, user2, user3];
 
-export default function ChatSideBar({} : ChatSideBarProps): JSX.Element{
+// recuperer le contenu du token 
+function parseJwt (token : string) {
+    var base64Url = token.split('.')[1];
+    var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    var jsonPayload = decodeURIComponent(window.atob(base64).split('').map(function(c) {
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+    }).join(''));
+
+    return JSON.parse(jsonPayload);
+}
+
+export default function ChatSideBar({ownerId} : ChatSideBarProps): JSX.Element{
+    const { token } = useAuth();
+    const currentUserId = token ? parseJwt(token).sub : null;
+    const isOwner = Number(currentUserId) === ownerId;
+    
+    
     return (
         <aside style={{width: "20%", padding: "10px", backgroundColor : "white"}}>
             {/* si MOCK_USERS est pas null, on itere sur tous les user pour les afficher */}
@@ -26,7 +45,7 @@ export default function ChatSideBar({} : ChatSideBarProps): JSX.Element{
                     <UserCard firstname={user.firstname} lastname={user.lastname} online={user.online}/>
                 );
             })}
-            
+            <DeleteChatButton showButton={isOwner}/>
         </aside>
     );
 };
