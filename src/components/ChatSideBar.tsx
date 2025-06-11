@@ -2,6 +2,7 @@ import type { JSX } from "react";
 import UserCard from "./UserCard";
 import DeleteChatButton from "./DeleteChatButton";
 import { useAuth } from "../auth/AuthContext";
+import { useParams } from "react-router-dom";
 
 // la side bar qui affiche les utilisateurs du chat
 interface ChatSideBarProps{
@@ -35,7 +36,8 @@ export default function ChatSideBar({ownerId} : ChatSideBarProps): JSX.Element{
     const { token } = useAuth();
     const currentUserId = token ? parseJwt(token).sub : null;
     const isOwner = Number(currentUserId) === ownerId;
-    
+    const { chatId } = useParams();
+
     
     return (
         <aside style={{width: "20%", padding: "10px", backgroundColor : "white"}}>
@@ -45,7 +47,7 @@ export default function ChatSideBar({ownerId} : ChatSideBarProps): JSX.Element{
                     <UserCard firstname={user.firstname} lastname={user.lastname} online={user.online}/>
                 );
             })}
-            <DeleteChatButton showButton={isOwner}/>
+            <DeleteChatButton showButton={isOwner} chatId={Number(chatId)}/>
         </aside>
     );
 };
