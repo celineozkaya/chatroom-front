@@ -10,7 +10,6 @@ interface ChatRoomProps{
 
 }
 
-
 // fonction qui rpz un composant (la page chatroom) qu'on utilise comme une fonction
 // les clé sans donner un nom a un objet dont on se blc au final car on appelle juste ses clefs
 // (ex : id au lieu de ChatRoomProps chatroomprops puis chatroomprops.id)
@@ -63,8 +62,3 @@ export default function ChatRoom({} : ChatRoomProps) : JSX.Element {
     );
 
 };
-
-// recuperer l'id de l'owner du chat
-//  aligner l’authentification front / back=> voir avec sacha ce qu'il avait fait, on dirait qu'il fait les deux :
-//soit tout passe par token jwt (et backend doit verif token),
-// soit tout passe par session http avec cookie ( et  axios doit faire withCredentials: true).

@@ -21,7 +21,6 @@ const NavBar: React.FC<NavBarProps> = ({ navbarHeight }) => {
             {token ? (
                 <>
                     <Link to="/" className={styles.link}>Accueil</Link>
-                    <Link to="/chatroom" className={styles.link}>Chatroom</Link>
                     <Link to="/mes-chats" className={styles.link}>Mes Chats</Link>
                     <Link to="/mes-invitations" className={styles.link}>Mes Invitations</Link>
                     <button onClick={handleLogout} className={styles.button}>Se déconnecter</button>
