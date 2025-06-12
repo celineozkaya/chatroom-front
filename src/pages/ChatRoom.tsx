@@ -18,14 +18,16 @@ interface ChatRoomProps{
 export default function ChatRoom({} : ChatRoomProps) : JSX.Element {
     const { chatId } = useParams<{ chatId: string }>();
     const [ownerId, setOwnerId] = useState<number>(0);
+    const [title, setTitle] = useState<string>("Titre du chat");
+    const [description, setDescription] = useState<string>("Description du chat");
 
     useEffect(() => {
         if (chatId) {
             getChatOwner();
+            getChatInfo();
         }
     }, [chatId]);
 
-    // changer pour une fonction avec axios et .then .catch
     function getChatOwner() {
         axios
             .get(`http://localhost:8080/api/chats/${chatId}/owner`)
@@ -37,12 +39,22 @@ export default function ChatRoom({} : ChatRoomProps) : JSX.Element {
             .catch((err) => console.error(err));
     };
 
+    // recuperere le titre du chat
+    function getChatInfo() {
+        axios
+            .get(`http://localhost:8080/api/chats/${chatId}`)
+            .then((res) => {
+                setTitle(res.data.title);
+                setDescription(res.data.description);
+            })
+            .catch((err) => console.error(err));
+    }
 
     return(
         <div style={{ display: "flex", height: "100%", width: "100%", fontFamily: "sans-serif"}}> {/*display: flex : place les enfants horizontalement, height: 100vh : occupe toute la hauteur de l’écran, fontFamily: "sans-serif" : police du texte*/}
             
             {/* zone de chat (chats + input) */}
-            <ChatZone title="Titre du chat"/>
+            <ChatZone title={title} description={description}/>
 
             {/* sidebar pour les utilisateurs connectés */}
             <ChatSideBar ownerId={ownerId}/>

@@ -14,10 +14,11 @@ interface Message{
 
 interface ChatZoneProps{
     readonly title : string;    
+    readonly description : string;    
 }
 
 
-export default function ChatZone({title="Titre du chat"} : ChatZoneProps) : JSX.Element {
+export default function ChatZone({title, description} : ChatZoneProps) : JSX.Element {
 
     const { user, token } = useAuth();
     console.log("user =", user);
@@ -68,9 +69,11 @@ export default function ChatZone({title="Titre du chat"} : ChatZoneProps) : JSX.
     return(
         <div style={{border : "1px solid lightgrey",  width: "80%", display: "flex", flexDirection:"column", height: "100%", justifyContent: "space-between",backgroundColor : "white"}}>
             {/* titre */}
-            <div style={{fontSize : "24px", padding : "20px", textAlign: "center", color:"black", fontWeight : "bold"}}>
-                {title}
+            <div style={{display: "flex", flexDirection:"column"}}>
+                <div style={{fontSize : "24px", padding : "18px", textAlign: "center", color:"black", fontWeight : "bold"}}>{title}</div>
+                <div style={{textAlign: "center",color:"darkgrey"}}>{description}</div>
             </div>
+            
             {/* messages */}
             <div style={{ display:"flex", flexDirection:"column", overflowY:"scroll", gap:"16px", padding :"20px"}}>
                 {messages.map((m, i) => (
@@ -89,92 +92,3 @@ export default function ChatZone({title="Titre du chat"} : ChatZoneProps) : JSX.
 
     );
 };
-
-// // src/components/ChatZone.tsx
-// import { useEffect, useRef, useState } from "react";
-
-// interface ChatZoneProps {
-//     id: number; // ID du salon
-//     username: string;
-//     mail: string;
-// }
-
-// interface Message {
-//     user: string;
-//     mail: string;
-//     message: string;
-//     timestamp?: string;
-// }
-
-// export default function ChatZone({ id, username, mail }: ChatZoneProps) {
-//     const [messages, setMessages] = useState<string[]>([]);
-//     const [inputValue, setInputValue] = useState("");
-//     const ws = useRef<WebSocket | null>(null);
-
-//     useEffect(() => {
-//         const socket = new WebSocket(`ws://localhost:8080/salon/${id}`);
-//         ws.current = socket;
-
-//         socket.onopen = () => {
-//             console.log("Connexion WebSocket ouverte.");
-//         };
-
-//         socket.onmessage = (event) => {
-//             setMessages((prev) => [...prev, event.data]);
-//         };
-
-//         socket.onclose = () => {
-//             console.log("Connexion WebSocket fermée.");
-//         };
-
-//         return () => {
-//             socket.close();
-//         };
-//     }, [id]);
-
-//     const sendMessage = () => {
-//         if (ws.current && ws.current.readyState === WebSocket.OPEN) {
-//             const msg: Message = {
-//                 user: username,
-//                 mail: mail,
-//                 message: inputValue,
-//             };
-//             ws.current.send(JSON.stringify(msg));
-//             setInputValue("");
-//         }
-//     };
-
-//     return (
-//         <div style={{ backgroundColor: "lightblue", width: "80%", height: "100%", display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
-//             {/* Affichage des messages */}
-//             <div style={{ flex: 1, overflowY: "auto", padding: "1rem" }}>
-//                 {messages.map((msg, index) => (
-//                     <div key={index} style={{ backgroundColor: "#cce", marginBottom: "0.5rem", padding: "0.5rem", borderRadius: "5px" }}>
-//                         {msg}
-//                     </div>
-//                 ))}
-//             </div>
-
-//             {/* Input de message */}
-//             <div style={{ padding: "1rem", backgroundColor: "lightgrey", display: "flex", gap: "0.5rem" }}>
-//                 <input
-//                     value={inputValue}
-//                     onChange={(e) => setInputValue(e.target.value)}
-//                     style={{ flex: 1, padding: "0.5rem" }}
-//                 />
-//                 <button onClick={sendMessage} style={{ padding: "0.5rem 1rem" }}>Envoyer</button>
-//             </div>
-//         </div>
-//     );
-// }
-
-
-//<ChatMessage content={displayedMessage} author="Celine" date="Aujourd'hui à 12h00" alignRight/>
-//                <ChatMessage content="Coucou" author="Bastian" date="Aujourd'hui à 12h00"/>
-//
-//                {/* si MOCK_MESSAGE est pas null, on itere sur tous les messages pour les afficher */}
-//                {MOCK_MESSAGES && MOCK_MESSAGES.map((message : Message) => { 
-//                    return (
-//                        <ChatMessage content={message.content} author={message.author} date={message.date} alignRight={message.author==="MSG_MOI"}/>
-//                    );
-//                })}
