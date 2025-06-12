@@ -1,6 +1,6 @@
 import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import Login from './pages/login';
-import ChatRoom from './pages/ChatRoom';
+import ChatRoom from './pages/ChatRoom.tsx';
 import MesChats from './components/MesChatsProprietaire.tsx';
 import MesInvitations from './components/MesChatsInvite.tsx';
 import Accueil from "./pages/Accueil.tsx";
@@ -35,7 +35,7 @@ function AppContent() {
                         path="/chat/:chatId"
                         element={
                             <ProtectedRoute>
-                                <ChatRoom id={2} />
+                                <ChatRoom/>
                             </ProtectedRoute>
                         }
                     />

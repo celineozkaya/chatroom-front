@@ -35,7 +35,7 @@ const MesChatsInvite: React.FC = () => {
     }, []);
 
     return (
-        <div>
+        <div >
             <div>Mes chats (invité)</div>
             <ul>
                 {chats.map(chat => (

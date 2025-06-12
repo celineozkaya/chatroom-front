@@ -17,7 +17,7 @@ export default function DeleteChatButton({showButton, chatId} : DeleteChatButton
     function deleteChat(){
         axios.post(`http://localhost:8080/api/chats/${chatId}/delete`, null, {headers: { 'Content-Type': 'application/json' }, withCredentials: true })
             .then(res => {
-                // console.log("Chat supprimé :", res.data);
+                console.log("Chat supprimé :", res.data);
                 navigate("/mes-chats"); // redirection vers /mes-chats
             })
             .catch(err => {
