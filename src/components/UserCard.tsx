@@ -4,22 +4,24 @@ import type { JSX } from "react";
 interface UserCardProps{
     readonly firstname : string;
     readonly lastname : string;
-    readonly online : boolean;
+    readonly avatar: string;
 }
 
-export default function UserCard({firstname, lastname, online} : UserCardProps) : JSX.Element{
+export default function UserCard({firstname, lastname, avatar} : UserCardProps) : JSX.Element{
     return(
             // j'ai fait gap:"10px" dans aside mais ca marche pas?
             <div style={{padding: "15px",
             marginBottom :"10px",
             borderRadius: "20px",
-            backgroundColor: online ? "#97E283" : "#FDFDFD",
-            color: online ? "#1E3321" : "#3D3D3D",
-            fontWeight: online ? "bold" : "normal",
             }}>
                 <div>{firstname} {lastname}</div>
-                <div style={{fontSize : "12px", fontWeight : "lighter"}}>{online? "En ligne" : "Hors ligne"}</div>
+                <img
+                        src={avatar}
+                    alt={`avatar...`}
+                    style={{ width: "40px", height: "40px", borderRadius: "50%" }}
+                />
             </div>
+
     );
 
 }
