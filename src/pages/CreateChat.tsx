@@ -53,6 +53,7 @@ export default function CreateChat({} : CreateChatProps) : JSX.Element {
     // pour peupler le select (lister les utilisateurs)
     const [users, setUsers] = useState<User[]>([])
     const [selectedUsers, setSelectedUsers] = useState<User[]>([]);
+    const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
     // au chargement du composant, recuperer la liste des utilisateurs
     useEffect(() => {
@@ -92,14 +93,14 @@ export default function CreateChat({} : CreateChatProps) : JSX.Element {
             // ajouter les invités 
             .then((res) => {
                 console.log("Chat créé :", res.data.id);
-
-                const chatId = res.data.id ; 
-
-                // verif id 
+                const chatId = res.data.id;
+            
                 if (!chatId) {
                     console.error("Chat ID manquant dans la réponse");
                     return;
                 }
+            
+                setSuccessMessage("Le chat a été créé !");
 
                 // envoyer invitation a chaque utilisateur
                 selectedUsers.forEach((user) => {
@@ -114,6 +115,7 @@ export default function CreateChat({} : CreateChatProps) : JSX.Element {
                             withCredentials: true
                         })
                         .then((inviteRes) => {
+                            console.log({inviteRes});
                             console.log(`Utilisateur ${user.email} invité avec succès`);
                         })
                         .catch((inviteErr) => {
@@ -165,6 +167,12 @@ export default function CreateChat({} : CreateChatProps) : JSX.Element {
                 <div style={{display : "flex", justifyContent : "center"}}>
                     <button type="submit" className={style.button}>Créer mon chat</button>
                 </div>
+                {successMessage && (
+                    <div style={{ color: "green", marginTop: "10px", textAlign: "center" }}>
+                        {successMessage}
+                    </div>
+                )}
+
             </form>
         </div>
             

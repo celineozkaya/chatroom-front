@@ -1,4 +1,4 @@
-import type { JSX } from "react";
+import { useState, type JSX } from "react";
 import UserCard from "./UserCard";
 import DeleteChatButton from "./DeleteChatButton";
 import { useAuth } from "../auth/AuthContext";
@@ -38,7 +38,6 @@ export default function ChatSideBar({ownerId} : ChatSideBarProps): JSX.Element{
     const isOwner = Number(currentUserId) === ownerId;
     const { chatId } = useParams();
 
-    
     return (
         <aside style={{width: "20%", padding: "10px", backgroundColor : "white"}}>
             {/* si MOCK_USERS est pas null, on itere sur tous les user pour les afficher */}
