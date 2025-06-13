@@ -10,6 +10,7 @@ interface UserCardProps{
 export default function UserCard({firstname, lastname, avatar} : UserCardProps) : JSX.Element{
 
     const backendBaseURL = "http://localhost:8080/uploads/avatars/";
+    // avatar ou default si pas de photo
     const avatarUrl = avatar
         ? `${backendBaseURL}${avatar}`
         : `https://ui-avatars.com/api/?name=${encodeURIComponent(firstname + " " + lastname)}`;
@@ -17,17 +18,13 @@ export default function UserCard({firstname, lastname, avatar} : UserCardProps) 
     console.log(avatarUrl)
     return(
 
-            // j'ai fait gap:"10px" dans aside mais ca marche pas?
-            <div style={{padding: "15px",
-            marginBottom :"10px",
-            borderRadius: "20px",
-            }}>
-                <div>{firstname} {lastname}</div>
+            <div style={{display: "flex", alignItems : "center", gap : "20px",padding: "15px", marginBottom :"10px", borderRadius: "20px", border : "1px solid grey"}}>
                 <img
                     src={avatarUrl}
                     alt={`avatar...`}
                     style={{ width: "40px", height: "40px", borderRadius: "50%" }}
-                />
+                    />
+                <div>{firstname} {lastname}</div>
             </div>
 
     );

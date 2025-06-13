@@ -5,6 +5,8 @@ import { MultiSelect } from 'primereact/multiselect';
 import 'primereact/resources/themes/lara-light-indigo/theme.css'; // ou autre thème
 import 'primereact/resources/primereact.min.css';
 import 'primeicons/primeicons.css';
+import { useAuth } from "../auth/AuthContext";
+import { parseJwt }from "../components/ChatSideBar"
 
 
 interface CreateChatProps{
@@ -54,10 +56,14 @@ export default function CreateChat({} : CreateChatProps) : JSX.Element {
     const [users, setUsers] = useState<User[]>([])
     const [selectedUsers, setSelectedUsers] = useState<User[]>([]);
     const [successMessage, setSuccessMessage] = useState<string | null>(null);
+    const { token } = useAuth();
+    const currentUserId = token ? parseJwt(token).sub : null;
 
     // au chargement du composant, recuperer la liste des utilisateurs
     useEffect(() => {
-        getUsers();
+        if(currentUserId){
+            getUsers();
+        }
     }, []);
 
     // requete get pour la liste des users (select)
@@ -72,7 +78,9 @@ export default function CreateChat({} : CreateChatProps) : JSX.Element {
                     lastname: user[2] as string,
                     email: user[3] as string
                 }));
-                setUsers(tempUsers);
+                // tous les utilisateurs sauf currentUser
+                const filteredUsers = tempUsers.filter(user => user.id !== Number(currentUserId));
+                setUsers(filteredUsers);
             })
             .catch((err) => console.error(err));
     };
