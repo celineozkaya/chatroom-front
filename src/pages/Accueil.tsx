@@ -1,5 +1,5 @@
 // src/pages/Accueil.tsx
-import React, { type CSSProperties } from 'react';
+import React from 'react';
 import MesChatsProprietaire from '../components/MesChatsProprietaire';
 import MesChatsInvite from '../components/MesChatsInvite';
 
