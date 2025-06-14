@@ -12,7 +12,7 @@ const Accueil: React.FC = () => {
             {/* <div style={{backgroundColor : "white", borderRadius : "20px", width : "40%", padding : "20px"}}>  */}
                 {/* <div style={{fontSize : "22px", padding : "20px"}}>Accueil</div>*/} 
                 {/*<div style={{display:"flex", justifyContent : "center", gap :"30px", width : "100%"}}> */} 
-                <div style={{width : "100%"}}>
+                <div style={{width : "100%", padding : "20px"}}>
 
                         <MesChatsProprietaire />
 

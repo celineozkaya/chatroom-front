@@ -36,7 +36,7 @@ const MesChatsInvite: React.FC = () => {
 
     return (
         <div style={{display:"flex",flexDirection : "column", alignItems : "center", padding : "20px"}}>
-            <div style={{display:"flex",flexDirection : "column", justifyContent : "center", gap :"30px", width : "80%", backgroundColor : "white", borderRadius : "20px"}}> 
+            <div style={{display:"flex",flexDirection : "column", justifyContent : "center", gap :"30px",  padding : "20px", width : "80%", backgroundColor : "white", borderRadius : "20px"}}> 
                 <div style = {{fontSize : "20px", textAlign : "center"}}>Mes invitations</div>
                 <ul style={{listStyleType: "none"}}>
                     {chats.map(chat => (
