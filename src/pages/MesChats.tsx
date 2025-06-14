@@ -7,10 +7,8 @@ const MesChats: React.FC = () => {
     return (
         <>
             <NavBar navbarHeight={30} />
-            <div>
-                <h1>Mes Chats</h1>
-                <MesChatsProprietaire />
-            </div>
+            <div>Mes Chats</div>
+            <MesChatsProprietaire />
         </>
     );
 };

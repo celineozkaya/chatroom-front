@@ -7,10 +7,8 @@ const MesInvitations: React.FC = () => {
   return (
     <>
       <NavBar navbarHeight={30} />
-      <div>
-        <h1>Mes Invitations</h1>
-        <MesChatsInvite />
-      </div>
+      <div>Mes Invitations</div>
+      <MesChatsInvite />
     </>
   );
 };

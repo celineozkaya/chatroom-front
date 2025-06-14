@@ -1,0 +1,26 @@
+.button {
+    color: black; 
+    text-decoration: none;
+    padding: 12px;
+    background-color: #98C1D9;
+    border-radius: 16px;
+    font-size: 16px;
+    font-family: sans-serif;
+    width: fit-content;
+    border :none;
+}
+
+.button:hover {
+    background-color: #001F3F;
+    color: white;
+    cursor : pointer;
+}
+
+.redButton {
+    color: white; 
+    background-color: #e03e3e;
+}
+.redButton:hover {
+    color: white; 
+    background-color: #8e1c1c;
+}

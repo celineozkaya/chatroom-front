@@ -3,7 +3,7 @@ html{
   width: 100vw; 
   height: 100vh; /*vh = hauteur de l'ecran (100 = tout)*/
   position: relative;
-  /* overflow: hidden; */
+  font-family: sans-serif;
 }
 
 body{
