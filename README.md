@@ -1,6 +1,6 @@
 Ce projet a été réalisé par Céline Ozkaya et Sacha Malaterre dans le cadre du cours "Archiecture des applications internet" (SR03) à l'UTC.
 
-Il s'agit du frontend d'une application de messagerie instantanée réalisé en React et Typescript.
+Il s'agit du frontend d'une application de messagerie instantanée réalisée en React et Typescript. Cette application sert d'interface utilisateur.
 
 ## Installation et execution du projet
 ```shell
